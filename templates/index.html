@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>YT Comment Annalyzer</title>
+	    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+	    <script src="https://unpkg.com/htmx.org@1.1.0" integrity="sha384-JVb/MVb+DiMDoxpTmoXWmMYSpQD2Z/1yiruL8+vC6Ri9lk6ORGiQqKSqfmCBbpbX" crossorigin="anonymous"></script>
+	<style type="text/css" media="screen">
+	      body {
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
+	      }
+	 
+	      #wrapper {
+		flex: 1;
+	      }
+	</style>
+	</head>
+	<body>
+		<nav class="navbar" role="navigation" aria-label="main navigation">
+			<div class="navbar-brand">
+				<a class="navbar-item" href="/">
+					<img src="{{ url_for('static', filename='youtube.png') }}">
+					Youtube Comment Analyzer
+				</a>
+			</div>
+		</nav>
+		<div id="wrapper">
+		{% for message in get_flashed_messages() %}
+		    <div class="flash">{{ message }}</div>
+		{% endfor %}
+			<section class="section">
+				<div class="container is-max-desktop">
+					<div class="columns">
+						<div class="column is-full">
+							<form hx-post="/search" hx-target="#search-results" hx-indicator="#indicator">
+								<div class="field has-addons">
+								  <div class="control is-expanded">
+									<input class="input" type="text" name="video" placeholder="Enter youtube video url" />
+								  </div>
+								  <div class="control">
+								    <button type="submit" class="button is-info">
+								      Search
+								    </button>
+								  </div>
+								</div>
+								<div class="field is-grouped is-grouped-right">
+									<div class="control">
+										<label class="checkbox">
+											<input type="checkbox" name="csv">
+											Download csv
+										</label>
+									</div>
+									<div class="control">
+										<div class="select">
+											<select name="no_comments">
+												<option>10 comments</option>
+												<option>20 comments</option>
+												<option>30 comments</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="columns">
+						<div class="column">
+							<div id="search-results">
+								<progress id="indicator" class="htmx-indicator progress is-large is-info" max="100">60%</progress>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+		<footer class="footer">
+		  <div class="content has-text-centered">
+		    <p>
+		      <strong>Youtube Comment Analyzer</strong> by <a href="https://kachamukabe.com">Kacha Mukabe</a>. The source code is licensed
+		      <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+		      is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY NC SA 4.0</a>.
+		    </p>
+		  </div>
+		</footer>
+	</body>
+</html>
+
